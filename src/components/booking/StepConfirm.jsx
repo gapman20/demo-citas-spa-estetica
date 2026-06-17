@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useBooking, useBookingDispatch } from './BookingContext';
 import servicesData from '../../data/services';
 import staffData from '../../data/staff';
+import useCalendarApi from '../../hooks/useCalendarApi';
 import styles from './StepConfirm.module.css';
 
 function findService(id) {
@@ -16,6 +17,7 @@ function findStaff(id) {
 export default function StepConfirm({ onReset }) {
   const state = useBooking();
   const dispatch = useBookingDispatch();
+  const { createEvent } = useCalendarApi();
 
   const [submitState, setSubmitState] = useState('idle'); // idle | submitting | success | error-conflict | error-network
 
@@ -31,29 +33,46 @@ export default function StepConfirm({ onReset }) {
     : '';
 
   const handleSubmit = useCallback(async () => {
+    if (!service || !state.date || !state.timeSlot) return;
+
     setSubmitState('submitting');
 
+    const start = `${state.date}T${state.timeSlot}:00`;
+    const [h, m] = state.timeSlot.split(':').map(Number);
+    const endMinutes = h * 60 + m + service.duration;
+    const endH = Math.floor(endMinutes / 60);
+    const endM = endMinutes % 60;
+    const end = `${state.date}T${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}:00`;
+
     try {
-      // Simulate API call — will be wired to real useCalendarApi in T-028
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate success 80% of the time
-          if (Math.random() > 0.2) {
-            resolve();
-          } else {
-            reject(new Error('conflict'));
-          }
-        }, 1500);
+      const description = [
+        `Servicio: ${service.name}`,
+        `Cliente: ${state.clientName}`,
+        `Tel: ${state.clientPhone}`,
+        `Email: ${state.clientEmail}`,
+        state.notes ? `Notas: ${state.notes}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      await createEvent({
+        summary: `Cita: ${service.name} - ${state.clientName}`,
+        start,
+        end,
+        description,
       });
 
       dispatch({ type: 'RESET' });
       setSubmitState('success');
     } catch (err) {
-      setSubmitState(
-        err.message === 'conflict' ? 'error-conflict' : 'error-network'
-      );
+      const status = err.status || (err.message || '').toLowerCase();
+      if (status === 409 || status === 'conflict') {
+        setSubmitState('error-conflict');
+      } else {
+        setSubmitState('error-network');
+      }
     }
-  }, [dispatch]);
+  }, [state, service, dispatch, createEvent]);
 
   function handleRetry() {
     setSubmitState('idle');
