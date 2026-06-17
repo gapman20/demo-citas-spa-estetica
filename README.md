@@ -1,16 +1,65 @@
-# React + Vite
+# Serenity Spa — Centro de Estética y Bienestar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web SPA (single-page application) para un centro de estética que permite a los clientes explorar servicios, conocer al equipo profesional, ver la galería del centro y agendar citas online con integración a Google Calendar.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Framework**: React 19 (JSX)
+- **Bundler**: Vite 8
+- **Routing**: React Router v7 (HashRouter)
+- **API**: Vercel Function (`/api/sync-calendar`) que proxy a Google Calendar API
+- **Estilos**: CSS Modules + design tokens (variables CSS)
 
-## React Compiler
+## Estructura
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+├── components/
+│   ├── admin/        # Panel de administración
+│   ├── booking/      # Wizard de reserva (5 pasos)
+│   ├── layout/       # Header, Footer, Navbar, MobileMenu
+│   └── shared/       # Componentes reutilizables
+├── data/             # Datos estáticos (servicios, staff, galería, clínica)
+├── hooks/            # Custom hooks (useAdminAuth, useAvailability, useCalendarApi)
+├── lib/              # Utilidades (api.js — fetch wrapper)
+├── pages/            # Componentes de página (ruteo)
+├── App.jsx           # Configuración de rutas
+└── main.jsx          # Entry point
+```
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Catálogo de servicios** — Explorar por categorías con grid responsive
+- **Staff** — Perfiles del equipo con servicios asociados
+- **Galería** — Grid de imágenes con lightbox y navegación
+- **Agendamiento** — Wizard de 5 pasos con verificación de disponibilidad en tiempo real
+- **Panel admin** — Login protegido, tabla de citas próximas, eliminación de turnos
+- **Contacto** — Información del centro, mapa, formulario de contacto (demo)
+
+## Desarrollo
+
+```bash
+pnpm install
+pnpm dev       # http://localhost:5173
+pnpm build     # Build de producción → dist/
+pnpm preview   # Preview del build
+```
+
+## Despliegue
+
+La app está diseñada para deploy en Vercel:
+
+1. Conectá el repo a Vercel
+2. Configurá las variables de entorno necesarias para la Function:
+   - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+   - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+   - `GOOGLE_CALENDAR_ID`
+3. El build se genera automáticamente con `vite build`
+
+> Sin las variables de entorno, la Function opera en modo mock para desarrollo local.
+
+## Admin
+
+- Ruta: `/#/admin`
+- Credenciales (demo): `admin` / `admin123`
+- Persistencia de sesión via localStorage
