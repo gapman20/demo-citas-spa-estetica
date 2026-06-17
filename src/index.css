@@ -72,6 +72,7 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 #root {
@@ -174,6 +175,22 @@ input, textarea, select {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+/* ─── Page Enter Animation ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main > * {
+  animation: fadeInUp 0.35s ease-out;
 }
 
 /* ─── Reduced Motion ─── */
