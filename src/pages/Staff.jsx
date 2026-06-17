@@ -1,10 +1,27 @@
+import staff from '../data/staff';
+import StaffCard from '../components/shared/StaffCard';
+import styles from './Staff.module.css';
+
 export default function Staff() {
   return (
-    <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
-      <h1>Nuestro Equipo</h1>
-      <p style={{ color: 'var(--color-text-secondary)' }}>
-        Conocé a nuestros profesionales.
-      </p>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        {/* ─── Header ─── */}
+        <div className={styles.header}>
+          <h1 className={styles.title}>Nuestro Equipo</h1>
+          <p className={styles.subtitle}>
+            Conocé a los profesionales que hacen de Serenity Spa un espacio único
+            de bienestar.
+          </p>
+        </div>
+
+        {/* ─── Staff Grid ─── */}
+        <div className={styles.grid}>
+          {staff.map((member) => (
+            <StaffCard key={member.id} staff={member} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
