@@ -1,0 +1,40 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.link {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-primary);
+  background-color: rgba(26, 107, 94, 0.06);
+}
+
+.linkActive {
+  color: var(--color-primary);
+  background-color: rgba(26, 107, 94, 0.08);
+}
+
+.ctaLink {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.ctaLink:hover {
+  background-color: var(--color-primary-dark);
+  color: white;
+}
