@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ServiceCard.module.css';
 
 export default function ServiceCard({ service }) {
+  const [imgError, setImgError] = useState(false);
   if (!service) return null;
 
   const priceFormatted = new Intl.NumberFormat('es-AR', {
@@ -14,12 +16,20 @@ export default function ServiceCard({ service }) {
     <article className={styles.card}>
       <Link to={`/services/${service.slug}`} className={styles.imageLink}>
         <div className={styles.imageWrapper}>
-          <img
-            src={service.image}
-            alt={service.name}
-            className={styles.image}
-            loading="lazy"
-          />
+          {imgError ? (
+            <div className={styles.imgFallback} aria-hidden="true">
+              <span className={styles.fallbackIcon}>✦</span>
+              <span className={styles.fallbackText}>{service.name}</span>
+            </div>
+          ) : (
+            <img
+              src={service.image}
+              alt={service.name}
+              className={styles.image}
+              loading="lazy"
+              onError={() => setImgError(true)}
+            />
+          )}
           <span className={styles.duration}>{service.duration} min</span>
         </div>
       </Link>
