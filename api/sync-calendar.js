@@ -120,7 +120,7 @@ function json(data, status = 200) {
 // ─── Action Handlers ───
 
 async function handleCheckAvailability(body) {
-  const { date, staffId } = body;
+  const { date } = body;
   if (!date) return error(400, 'El campo date es obligatorio.');
 
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
