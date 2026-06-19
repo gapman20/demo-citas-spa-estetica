@@ -3,16 +3,20 @@ import { createContext, useContext, useReducer } from 'react';
 const BookingContext = createContext(null);
 const BookingDispatchContext = createContext(null);
 
-const initialState = {
-  serviceId: null,
-  staffId: null,
-  date: null,
-  timeSlot: null,
-  clientName: '',
-  clientPhone: '',
-  clientEmail: '',
-  notes: '',
-};
+function createInitialState(overrides = {}) {
+  return {
+    serviceId: overrides.serviceId ?? null,
+    staffId: overrides.staffId ?? null,
+    date: null,
+    timeSlot: null,
+    clientName: '',
+    clientPhone: '',
+    clientEmail: '',
+    notes: '',
+  };
+}
+
+const initialState = createInitialState();
 
 function bookingReducer(state, action) {
   switch (action.type) {
@@ -37,8 +41,11 @@ function bookingReducer(state, action) {
   }
 }
 
-export function BookingProvider({ children }) {
-  const [state, dispatch] = useReducer(bookingReducer, initialState);
+export function BookingProvider({ children, initialServiceId, initialStaffId }) {
+  const [state, dispatch] = useReducer(
+    bookingReducer,
+    createInitialState({ serviceId: initialServiceId, staffId: initialStaffId })
+  );
 
   return (
     <BookingContext.Provider value={state}>

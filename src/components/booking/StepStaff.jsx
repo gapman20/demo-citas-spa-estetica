@@ -3,7 +3,7 @@ import staff from '../../data/staff';
 import StaffCard from '../shared/StaffCard';
 import styles from './StepStaff.module.css';
 
-export default function StepStaff() {
+export default function StepStaff({ onNext }) {
   const state = useBooking();
   const dispatch = useBookingDispatch();
 
@@ -27,9 +27,12 @@ export default function StepStaff() {
               key={person.id}
               type="button"
               className={`${styles.cardBtn} ${isSelected ? styles.selected : ''}`}
-              onClick={() => dispatch({ type: 'SET_STAFF', staffId: person.id })}
+              onClick={() => {
+                dispatch({ type: 'SET_STAFF', staffId: person.id });
+                onNext?.();
+              }}
             >
-              <StaffCard staff={person} />
+              <StaffCard staff={person} readonly />
               {isSelected && (
                 <span className={styles.checkmark} aria-label="Seleccionado">
                   ✓

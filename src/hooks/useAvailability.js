@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiRequest } from '../lib/api';
 
+// Cache en memoria por sesión: evita refetchear el mismo día
+const availabilityCache = new Map();
+
 export default function useAvailability(date, staffId) {
   const [available, setAvailable] = useState([]);
   const [booked, setBooked] = useState([]);
@@ -19,6 +22,14 @@ export default function useAvailability(date, staffId) {
       return;
     }
 
+    // Cache hit: devolvemos sin fetch
+    const cached = availabilityCache.get(dateStr);
+    if (cached) {
+      setAvailable(cached.available);
+      setBooked(cached.booked);
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -27,8 +38,13 @@ export default function useAvailability(date, staffId) {
         date: dateStr,
         staffId: staffId ?? undefined,
       });
-      setAvailable(data.available || []);
-      setBooked(data.booked || []);
+      const result = {
+        available: data.available || [],
+        booked: data.booked || [],
+      };
+      availabilityCache.set(dateStr, result);
+      setAvailable(result.available);
+      setBooked(result.booked);
     } catch (err) {
       setError(err.message || 'Error al obtener disponibilidad.');
       setAvailable([]);
@@ -47,6 +63,9 @@ export default function useAvailability(date, staffId) {
     booked,
     isLoading,
     error,
-    retry: fetchAvailability,
+    retry: () => {
+      availabilityCache.delete(dateStr);
+      return fetchAvailability();
+    },
   };
 }

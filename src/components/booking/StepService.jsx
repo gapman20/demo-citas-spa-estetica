@@ -4,7 +4,7 @@ import servicesData, { categories } from '../../data/services';
 import ServiceCard from '../shared/ServiceCard';
 import styles from './StepService.module.css';
 
-export default function StepService() {
+export default function StepService({ onNext }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const state = useBooking();
   const dispatch = useBookingDispatch();
@@ -48,9 +48,12 @@ export default function StepService() {
               key={service.id}
               type="button"
               className={`${styles.cardBtn} ${isSelected ? styles.selected : ''}`}
-              onClick={() => dispatch({ type: 'SET_SERVICE', serviceId: service.id })}
+              onClick={() => {
+                dispatch({ type: 'SET_SERVICE', serviceId: service.id });
+                onNext?.();
+              }}
             >
-              <ServiceCard service={service} />
+              <ServiceCard service={service} readonly />
               {isSelected && (
                 <span className={styles.checkmark} aria-label="Seleccionado">
                   ✓

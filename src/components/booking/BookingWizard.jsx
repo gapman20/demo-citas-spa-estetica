@@ -25,8 +25,8 @@ function canAdvance(step, state) {
   }
 }
 
-export default function BookingWizard() {
-  const [currentStep, setCurrentStep] = useState(1);
+export default function BookingWizard({ initialStep = 1 }) {
+  const [currentStep, setCurrentStep] = useState(initialStep);
   const state = useBooking();
 
   const StepComponent = STEPS[currentStep - 1];
@@ -44,7 +44,13 @@ export default function BookingWizard() {
   ];
 
   function handleNext() {
-    if (currentStep < 5) {
+    if (currentStep >= 5) return;
+
+    // Si el profesional ya está pre-seleccionado (via ?staff=) al elegir servicio,
+    // salteamos el paso 2 y vamos directo a elegir fecha/hora
+    if (currentStep === 1 && state.staffId) {
+      setCurrentStep(3);
+    } else {
       setCurrentStep((s) => s + 1);
     }
   }
@@ -67,7 +73,11 @@ export default function BookingWizard() {
         <h2 className={styles.stepTitle}>{stepTitles[currentStep]}</h2>
 
         <div className={styles.stepContent}>
-          {currentStep === 4 ? (
+          {currentStep === 1 ? (
+            <StepService onNext={handleNext} />
+          ) : currentStep === 2 ? (
+            <StepStaff onNext={handleNext} />
+          ) : currentStep === 4 ? (
             <StepContact onNext={handleNext} onBack={handleBack} />
           ) : currentStep === 5 ? (
             <StepConfirm onReset={() => goToStep(1)} />
