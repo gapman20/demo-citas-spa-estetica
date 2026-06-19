@@ -56,6 +56,7 @@ export function BookingProvider({ children, initialServiceId, initialStaffId }) 
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBooking() {
   const context = useContext(BookingContext);
   if (context === null) {
@@ -64,6 +65,7 @@ export function useBooking() {
   return context;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBookingDispatch() {
   const context = useContext(BookingDispatchContext);
   if (context === null) {

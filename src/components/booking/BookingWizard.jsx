@@ -32,7 +32,6 @@ export default function BookingWizard({ initialStep = 1 }) {
   const StepComponent = STEPS[currentStep - 1];
   const canGoNext = canAdvance(currentStep, state);
   const isFirstStep = currentStep === 1;
-  const isLastStep = currentStep === 5;
 
   const stepTitles = [
     null,

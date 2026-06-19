@@ -77,23 +77,31 @@ export default function DashboardTable() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const fetchEvents = useCallback(async () => {
+  useEffect(() => {
+    let cancelled = false;
     setIsLoading(true);
     setError(null);
-    try {
+    async function load() {
       const { timeMin, timeMax } = getDateBounds();
       const data = await listEvents(timeMin, timeMax);
-      setEvents(data.events || []);
-    } catch (err) {
-      setError(err.message || 'Error al cargar las citas.');
-    } finally {
-      setIsLoading(false);
+      return data.events || [];
     }
+    load()
+      .then((events) => { if (!cancelled) setEvents(events); })
+      .catch((err) => { if (!cancelled) setError(err.message || 'Error al cargar las citas.'); })
+      .finally(() => { if (!cancelled) setIsLoading(false); });
+    return () => { cancelled = true; };
   }, [listEvents]);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+  const retry = () => {
+    setIsLoading(true);
+    setError(null);
+    const { timeMin, timeMax } = getDateBounds();
+    listEvents(timeMin, timeMax)
+      .then((data) => setEvents(data.events || []))
+      .catch((err) => setError(err.message || 'Error al cargar las citas.'))
+      .finally(() => setIsLoading(false));
+  };
 
   const handleDelete = useCallback(
     async (eventId) => {
@@ -146,7 +154,7 @@ export default function DashboardTable() {
           <button
             type="button"
             className={styles.retryBtn}
-            onClick={fetchEvents}
+            onClick={retry}
           >
             Reintentar
           </button>

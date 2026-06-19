@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { apiRequest } from '../lib/api';
 
 // Cache en memoria por sesión: evita refetchear el mismo día
@@ -14,49 +14,50 @@ export default function useAvailability(date, staffId) {
     ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
     : null;
 
-  const fetchAvailability = useCallback(async () => {
-    if (!dateStr) {
+  async function fetchAvailabilityData(dateStrValue, staffIdValue) {
+    if (!dateStrValue) return null;
+
+    const cached = availabilityCache.get(dateStrValue);
+    if (cached) return cached;
+
+    const data = await apiRequest('check-availability', {
+      date: dateStrValue,
+      staffId: staffIdValue ?? undefined,
+    });
+    const result = {
+      available: data.available || [],
+      booked: data.booked || [],
+    };
+    availabilityCache.set(dateStrValue, result);
+    return result;
+  }
+
+  function applyResult(result) {
+    if (result === null) {
       setAvailable([]);
       setBooked([]);
-      setIsLoading(false);
-      return;
-    }
-
-    // Cache hit: devolvemos sin fetch
-    const cached = availabilityCache.get(dateStr);
-    if (cached) {
-      setAvailable(cached.available);
-      setBooked(cached.booked);
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const data = await apiRequest('check-availability', {
-        date: dateStr,
-        staffId: staffId ?? undefined,
-      });
-      const result = {
-        available: data.available || [],
-        booked: data.booked || [],
-      };
-      availabilityCache.set(dateStr, result);
+    } else {
       setAvailable(result.available);
       setBooked(result.booked);
-    } catch (err) {
-      setError(err.message || 'Error al obtener disponibilidad.');
-      setAvailable([]);
-      setBooked([]);
-    } finally {
-      setIsLoading(false);
     }
-  }, [dateStr, staffId]);
+  }
 
   useEffect(() => {
-    fetchAvailability();
-  }, [fetchAvailability]);
+    let cancelled = false;
+    setIsLoading(true);
+    setError(null);
+    fetchAvailabilityData(dateStr, staffId)
+      .then((result) => {
+        if (!cancelled && result) applyResult(result);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err.message || 'Error al obtener disponibilidad.');
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [dateStr, staffId]);
 
   return {
     available,
@@ -65,7 +66,12 @@ export default function useAvailability(date, staffId) {
     error,
     retry: () => {
       availabilityCache.delete(dateStr);
-      return fetchAvailability();
+      setIsLoading(true);
+      setError(null);
+      fetchAvailabilityData(dateStr, staffId)
+        .then((result) => { if (result) applyResult(result); })
+        .catch((err) => setError(err.message || 'Error al obtener disponibilidad.'))
+        .finally(() => setIsLoading(false));
     },
   };
 }
