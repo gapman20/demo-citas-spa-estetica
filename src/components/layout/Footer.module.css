@@ -1,14 +1,17 @@
 .footer {
   margin-top: auto;
-  background-color: var(--color-primary-dark);
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 20%, rgba(201, 169, 110, 0.15) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(196, 131, 122, 0.1) 0%, transparent 55%),
+    var(--color-primary-dark);
   color: rgba(255, 255, 255, 0.85);
-  padding: var(--space-3xl) 0 var(--space-xl);
+  padding: var(--space-2xl) 0 var(--space-md);
 }
 
 .inner {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--space-2xl);
+  gap: var(--space-xl);
   max-width: var(--max-width);
   margin: 0 auto;
   padding-inline: var(--space-lg);
@@ -16,36 +19,37 @@
 
 .brand {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: white;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
 }
 
 .description {
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 0.82rem;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
-  max-width: 340px;
+  max-width: 300px;
+  margin: 0;
 }
 
 .columnTitle {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: white;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: 4px;
 }
 
 .link {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.82rem;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -56,20 +60,20 @@
 
 .socialLinks {
   display: flex;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
 }
 
 .socialLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 1.1rem;
+  font-size: 0.82rem;
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
@@ -80,12 +84,12 @@
 }
 
 .bottom {
-  margin-top: var(--space-2xl);
-  padding-top: var(--space-lg);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 @media (max-width: 768px) {

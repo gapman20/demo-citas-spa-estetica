@@ -68,6 +68,7 @@ export default function Contact() {
         {/* ─── Header ─── */}
         <div className={styles.header}>
           <h1 className={styles.title}>Contacto</h1>
+          <span className={styles.starOrnament} aria-hidden="true">✦</span>
           <p className={styles.subtitle}>
             Estamos para ayudarte. Encontranos o escribinos.
           </p>

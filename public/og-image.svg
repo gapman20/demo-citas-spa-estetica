@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a6b5e"/>
+      <stop offset="100%" stop-color="#0f4d43"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c4837a"/>
+      <stop offset="100%" stop-color="#a86b62"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Decorative circles -->
+  <circle cx="100" cy="550" r="180" fill="#1a6b5e" opacity="0.15"/>
+  <circle cx="1100" cy="80" r="120" fill="#2d8b7d" opacity="0.1"/>
+  <!-- Brand mark -->
+  <text x="100" y="320" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#ffffff" letter-spacing="2">Serenity Spa</text>
+  <rect x="100" y="340" width="80" height="3" fill="#c4837a" rx="2"/>
+  <text x="100" y="420" font-family="system-ui, sans-serif" font-size="28" fill="#e8c4be" letter-spacing="4" font-weight="300">CENTRO DE ESTÉTICA Y BIENESTAR</text>
+  <text x="100" y="470" font-family="system-ui, sans-serif" font-size="20" fill="#8a8580">Córdoba · Reservá tu cita online</text>
+  <!-- Decorative spa leaf -->
+  <path d="M950 380 Q1000 300 1050 380 Q1000 340 950 380Z" fill="#c4837a" opacity="0.3"/>
+  <path d="M970 390 Q1020 320 1070 390 Q1020 350 970 390Z" fill="#e8c4be" opacity="0.2"/>
+  <!-- Bottom bar -->
+  <rect x="0" y="600" width="1200" height="4" fill="url(#accent)"/>
+</svg>

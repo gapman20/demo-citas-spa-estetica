@@ -1,5 +1,5 @@
 .page {
-  padding: var(--space-3xl) 0 var(--space-4xl);
+  padding: var(--space-3xl) 0;
   background-color: var(--color-bg);
 }
 
@@ -34,6 +34,15 @@
   line-height: 1.7;
   max-width: 520px;
   margin: 0 auto;
+}
+
+.starOrnament {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-gold);
+  line-height: 1;
+  margin: var(--space-xs) 0 var(--space-md);
+  opacity: 0.6;
 }
 
 /* ─── Filters ─── */

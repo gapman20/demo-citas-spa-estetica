@@ -20,6 +20,7 @@ export default function Services() {
         {/* ─── Header ─── */}
         <div className={styles.header}>
           <h1 className={styles.title}>Nuestros Servicios</h1>
+          <span className={styles.starOrnament} aria-hidden="true">✦</span>
           <p className={styles.subtitle}>
             Descubrí todos nuestros tratamientos diseñados para tu bienestar.
           </p>
@@ -43,7 +44,7 @@ export default function Services() {
 
         {/* ─── Services Grid ─── */}
         {filteredServices.length > 0 ? (
-          <div className={styles.grid}>
+          <div key={activeCategory} className={`${styles.grid} stagger`}>
             {filteredServices.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}

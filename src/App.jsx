@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import ScrollToTop from './components/layout/ScrollToTop';
 import LoadingSkeleton from './components/shared/LoadingSkeleton';
 import ErrorBoundary from './components/shared/ErrorBoundary';
 
@@ -31,7 +32,9 @@ function SuspenseWrapper({ children }) {
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       <Route element={<Layout />}>
         <Route
           index
@@ -125,5 +128,6 @@ export default function App() {
         />
       </Route>
     </Routes>
+    </>
   );
 }

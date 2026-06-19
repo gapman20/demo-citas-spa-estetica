@@ -50,6 +50,7 @@ export default function Gallery() {
         {/* ─── Header ─── */}
         <div className={styles.header}>
           <h1 className={styles.title}>Galería</h1>
+          <span className={styles.starOrnament} aria-hidden="true">✦</span>
           <p className={styles.subtitle}>
             Conocé nuestras instalaciones, tratamientos y el equipo que hace
             posible Serenity Spa.
@@ -78,7 +79,7 @@ export default function Gallery() {
 
         {/* ─── Grid ─── */}
         {filteredItems.length > 0 ? (
-          <div className={styles.grid}>
+          <div key={activeCategory} className={`${styles.grid} stagger`}>
             {filteredItems.map((item) => (
               <GalleryImage
                 key={item.id}

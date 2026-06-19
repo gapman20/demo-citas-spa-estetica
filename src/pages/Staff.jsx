@@ -9,6 +9,7 @@ export default function Staff() {
         {/* ─── Header ─── */}
         <div className={styles.header}>
           <h1 className={styles.title}>Nuestro Equipo</h1>
+          <span className={styles.starOrnament} aria-hidden="true">✦</span>
           <p className={styles.subtitle}>
             Conocé a los profesionales que hacen de Serenity Spa un espacio único
             de bienestar.
@@ -16,7 +17,7 @@ export default function Staff() {
         </div>
 
         {/* ─── Staff Grid ─── */}
-        <div className={styles.grid}>
+        <div className={`${styles.grid} stagger`}>
           {staff.map((member) => (
             <StaffCard key={member.id} staff={member} />
           ))}

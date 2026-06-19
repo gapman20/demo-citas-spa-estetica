@@ -12,7 +12,25 @@
   color: var(--color-text-secondary);
   text-decoration: none;
   border-radius: var(--radius-md);
+  position: relative;
   transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: var(--space-md);
+  right: var(--space-md);
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+
+.link:hover::after {
+  transform: scaleX(0.3);
 }
 
 .link:hover {
@@ -23,6 +41,10 @@
 .linkActive {
   color: var(--color-primary);
   background-color: rgba(26, 107, 94, 0.08);
+}
+
+.linkActive::after {
+  transform: scaleX(1);
 }
 
 .ctaLink {

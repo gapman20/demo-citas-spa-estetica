@@ -6,6 +6,40 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent),
+    var(--color-gold-light)
+  );
+  border-radius: 3px 3px 0 0;
+  z-index: 1;
+}
+
+.card::after {
+  content: '✦';
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  font-size: 3.5rem;
+  color: var(--color-border);
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+  opacity: 0.35;
 }
 
 .card:hover {
@@ -20,7 +54,7 @@
 
 .imageWrapper {
   position: relative;
-  height: 200px;
+  height: 150px;
   overflow: hidden;
 }
 
@@ -73,11 +107,11 @@
 }
 
 .body {
-  padding: var(--space-lg);
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: var(--space-sm);
+  gap: 6px;
 }
 
 .category {
@@ -107,13 +141,13 @@
 }
 
 .description {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--color-text-secondary);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
   flex: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -122,24 +156,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: var(--space-md);
-  padding-top: var(--space-md);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
   border-top: 1px solid var(--color-border-light);
 }
 
 .price {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-primary);
 }
 
 .cta {
-  padding: var(--space-sm) var(--space-lg);
+  padding: 0.35rem 0.85rem;
   background-color: var(--color-primary);
   color: white;
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s ease;

@@ -1,5 +1,5 @@
 .page {
-  padding: var(--space-3xl) 0 var(--space-4xl);
+  padding: var(--space-3xl) 0;
   background-color: var(--color-bg);
   min-height: 60dvh;
 }
