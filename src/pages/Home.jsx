@@ -7,7 +7,6 @@ import styles from './Home.module.css';
 const featuredServices = services.slice(0, 3);
 
 export default function Home() {
-  const [statsRef, statsInView] = useInView();
   const [whyRef, whyInView] = useInView();
   const [servicesRef, servicesInView] = useInView();
   const [ctaRef, ctaInView] = useInView();
@@ -36,31 +35,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ─── Stats Bar ─── */}
-      <div ref={statsRef} className={styles.statsBar}>
-        <div className={styles.statsInner}>
-          <div className={`${styles.stat} ${statsInView ? styles.statVisible1 : ''}`}>
-            <span className={styles.statNumber}>+500</span>
-            <span className={styles.statLabel}>Clientas satisfechas</span>
-          </div>
-          <div className={styles.statSep} aria-hidden="true" />
-          <div className={`${styles.stat} ${statsInView ? styles.statVisible2 : ''}`}>
-            <span className={styles.statNumber}>8</span>
-            <span className={styles.statLabel}>Años de experiencia</span>
-          </div>
-          <div className={styles.statSep} aria-hidden="true" />
-          <div className={`${styles.stat} ${statsInView ? styles.statVisible3 : ''}`}>
-            <span className={styles.statNumber}>20+</span>
-            <span className={styles.statLabel}>Tratamientos</span>
-          </div>
-          <div className={styles.statSep} aria-hidden="true" />
-          <div className={`${styles.stat} ${statsInView ? styles.statVisible4 : ''}`}>
-            <span className={styles.statNumber}>5 ★</span>
-            <span className={styles.statLabel}>Valoración promedio</span>
-          </div>
-        </div>
-      </div>
 
       {/* ─── Why Us ─── */}
       <section ref={whyRef} className={styles.whyUs}>
