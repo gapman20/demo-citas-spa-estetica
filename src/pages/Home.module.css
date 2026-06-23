@@ -21,17 +21,25 @@
   overflow: hidden;
 }
 
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
 .heroBg {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
-    var(--color-primary-dark) 0%,
-    var(--color-primary) 40%,
-    var(--color-primary-light) 100%
+    rgba(15, 77, 67, 0.65) 0%,
+    rgba(26, 107, 94, 0.5) 40%,
+    rgba(45, 139, 125, 0.35) 100%
   );
-  z-index: 0;
-  animation: heroDrift 20s ease-in-out infinite;
+  z-index: 1;
 }
 
 .heroBg::after {
@@ -39,9 +47,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 30%, rgba(201, 169, 110, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 60% 80%, rgba(196, 131, 122, 0.12) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(201, 169, 110, 0.12) 0%, transparent 55%);
 }
 
 /* ─── Hero → Content Fade Transition ─── */
@@ -54,12 +61,12 @@
   height: 6rem;
   background: linear-gradient(to bottom, transparent, var(--color-bg));
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .heroContent {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   max-width: 720px;
   padding: var(--space-4xl) var(--space-lg);

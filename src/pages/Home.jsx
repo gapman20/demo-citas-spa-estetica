@@ -15,6 +15,9 @@ export default function Home() {
     <>
       {/* ─── Hero ─── */}
       <section className={styles.hero}>
+        <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster="/og-image.svg">
+          <source src="/spa.mp4" type="video/mp4" />
+        </video>
         <div className={styles.heroBg} aria-hidden="true" />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
