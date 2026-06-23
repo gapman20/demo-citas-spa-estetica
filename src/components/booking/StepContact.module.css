@@ -70,9 +70,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-sm);
   padding-top: var(--space-md);
   border-top: 1px solid var(--color-border-light);
   margin-top: var(--space-sm);
+}
+
+@media (max-width: 420px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .backBtn {
