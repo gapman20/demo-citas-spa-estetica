@@ -227,13 +227,6 @@ main > * {
   50% { opacity: 0.7; }
 }
 
-@keyframes heroDrift {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(10px, -15px) scale(1.02); }
-  66% { transform: translate(-8px, 10px) scale(0.98); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
 /* ─── Button Pulse ─── */
 @keyframes ctaPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(196, 131, 122, 0.4); }
