@@ -37,10 +37,16 @@ function computeAvailability(events, date) {
     const endStr = event.end?.dateTime || event.end?.date;
     if (!startStr || !endStr) continue;
 
-    const startH = new Date(startStr).getHours();
-    const startMin = new Date(startStr).getMinutes();
-    const endH = new Date(endStr).getHours();
-    const endMin = new Date(endStr).getMinutes();
+    let startH = 0, startMin = 0, endH = 23, endMin = 59;
+
+    if (event.start?.dateTime) {
+      const sMatch = startStr.match(/T(\d{2}):(\d{2})/);
+      if (sMatch) { startH = parseInt(sMatch[1], 10); startMin = parseInt(sMatch[2], 10); }
+      const eMatch = endStr.match(/T(\d{2}):(\d{2})/);
+      if (eMatch) { endH = parseInt(eMatch[1], 10); endMin = parseInt(eMatch[2], 10); }
+    } else {
+      // All day event, keep 00:00 to 23:59
+    }
 
     const startSlot =
       `${String(startH).padStart(2, '0')}:${String(startMin).padStart(2, '0')}`;
@@ -138,16 +144,17 @@ async function handleCheckAvailability(body) {
     });
   }
 
-  const dayStart = new Date(`${date}T00:00:00`);
-  const dayEnd = new Date(`${date}T23:59:59`);
+  const timeMin = `${date}T00:00:00-03:00`;
+  const timeMax = `${date}T23:59:59-03:00`;
 
   const calendar = await getCalendarApi();
   const response = await calendar.events.list({
     calendarId,
-    timeMin: dayStart.toISOString(),
-    timeMax: dayEnd.toISOString(),
+    timeMin,
+    timeMax,
     singleEvents: true,
     orderBy: 'startTime',
+    timeZone: 'America/Argentina/Buenos_Aires',
   });
 
   const events = response.data.items || [];
@@ -187,8 +194,8 @@ async function handleCreateEvent(body) {
     requestBody: {
       summary,
       description: description || '',
-      start: { dateTime: start, timeZone: 'America/Argentina/Buenos_Aires' },
-      end: { dateTime: end, timeZone: 'America/Argentina/Buenos_Aires' },
+      start: { dateTime: `${start}-03:00`, timeZone: 'America/Argentina/Buenos_Aires' },
+      end: { dateTime: `${end}-03:00`, timeZone: 'America/Argentina/Buenos_Aires' },
     },
   });
 
