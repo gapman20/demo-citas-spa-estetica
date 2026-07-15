@@ -144,8 +144,8 @@ async function handleCheckAvailability(body) {
     });
   }
 
-  const timeMin = `${date}T00:00:00-03:00`;
-  const timeMax = `${date}T23:59:59-03:00`;
+  const timeMin = `${date}T00:00:00-06:00`;
+  const timeMax = `${date}T23:59:59-06:00`;
 
   const calendar = await getCalendarApi();
   const response = await calendar.events.list({
@@ -154,7 +154,7 @@ async function handleCheckAvailability(body) {
     timeMax,
     singleEvents: true,
     orderBy: 'startTime',
-    timeZone: 'America/Argentina/Buenos_Aires',
+    timeZone: 'America/Mexico_City',
   });
 
   const events = response.data.items || [];
@@ -194,8 +194,8 @@ async function handleCreateEvent(body) {
     requestBody: {
       summary,
       description: description || '',
-      start: { dateTime: `${start}-03:00`, timeZone: 'America/Argentina/Buenos_Aires' },
-      end: { dateTime: `${end}-03:00`, timeZone: 'America/Argentina/Buenos_Aires' },
+      start: { dateTime: `${start}-06:00`, timeZone: 'America/Mexico_City' },
+      end: { dateTime: `${end}-06:00`, timeZone: 'America/Mexico_City' },
     },
   });
 
