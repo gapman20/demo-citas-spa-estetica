@@ -54,14 +54,31 @@ src/
 └── main.jsx            # Entry point
 ```
 
-## ✦ Desarrollo
+## ✦ Desarrollo local
 
+Para desarrollo básico (solo frontend sin probar las conexiones a la API):
 ```bash
 pnpm install
 pnpm dev         # → http://localhost:5173
+```
+
+### Probar el Backend (API de Calendar) localmente
+
+Dado que el proyecto utiliza Vercel Serverless Functions (`/api`), para probar el flujo de reservas completo necesitás usar el CLI de Vercel:
+
+1. Instalá el CLI oficial: `npm i -g vercel`
+2. Creá un archivo `.env` en la raíz copiando el formato de `.env.example` y agregá tus credenciales de Google.
+3. Linkeá el proyecto y levantá el entorno completo:
+```bash
+vercel link
+vercel dev       # → http://localhost:3000 (Levanta Vite + Node Serverless API)
+```
+
+### Otros comandos
+```bash
 pnpm build       # Build de producción → dist/
 pnpm preview     # Preview del build
-pnpm lint        # ESLint
+pnpm lint        # Linter de código
 ```
 
 ## ✦ Despliegue
