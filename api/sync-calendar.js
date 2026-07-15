@@ -104,17 +104,11 @@ async function getCalendarApi() {
 }
 
 function error(status, message) {
-  return new Response(JSON.stringify({ error: true, message }), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return { error: true, status, message };
 }
 
 function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return { success: true, status, data };
 }
 
 // ─── Action Handlers ───
@@ -250,41 +244,40 @@ async function handleDeleteEvent(body) {
 
 // ─── Route Handler ───
 
-export async function POST(request) {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: true, message: 'Método no permitido. Usá POST.' });
+  }
+
   try {
-    const body = await request.json();
+    const body = req.body || {};
     const { action } = body;
 
+    let result;
     switch (action) {
       case 'check-availability':
-        return await handleCheckAvailability(body);
+        result = await handleCheckAvailability(body);
+        break;
       case 'create-event':
-        return await handleCreateEvent(body);
+        result = await handleCreateEvent(body);
+        break;
       case 'list-events':
-        return await handleListEvents(body);
+        result = await handleListEvents(body);
+        break;
       case 'delete-event':
-        return await handleDeleteEvent(body);
+        result = await handleDeleteEvent(body);
+        break;
       default:
-        return error(400, `Acción desconocida: ${action}.`);
+        result = error(400, `Acción desconocida: ${action}.`);
     }
+
+    if (result && result.error) {
+      return res.status(result.status || 400).json({ error: true, message: result.message });
+    }
+    
+    return res.status(result.status || 200).json(result.data || {});
   } catch (err) {
     console.error('Calendar API error:', err);
-    return error(500, 'Error interno del servidor.');
+    return res.status(500).json({ error: true, message: 'Error interno del servidor.' });
   }
-}
-
-export async function GET() {
-  return error(405, 'Método no permitido. Usá POST.');
-}
-
-export async function PUT() {
-  return error(405, 'Método no permitido. Usá POST.');
-}
-
-export async function PATCH() {
-  return error(405, 'Método no permitido. Usá POST.');
-}
-
-export async function DELETE() {
-  return error(405, 'Método no permitido. Usá POST.');
 }
