@@ -18,6 +18,13 @@ function todayString() {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
+// Returns true if a "HH:MM" slot is strictly in the past relative to now
+function isPastSlot(time) {
+  const now = new Date();
+  const [h, m] = time.split(':').map(Number);
+  return h < now.getHours() || (h === now.getHours() && m <= now.getMinutes());
+}
+
 export default function StepDateTime() {
   const state = useBooking();
   const dispatch = useBookingDispatch();
@@ -91,7 +98,7 @@ export default function StepDateTime() {
       )}
 
       <TimeSlotGrid
-        available={available}
+        available={isToday ? available.filter((t) => !isPastSlot(t)) : available}
         booked={booked}
         selectedSlot={state.timeSlot}
         onSelect={handleSelectSlot}
