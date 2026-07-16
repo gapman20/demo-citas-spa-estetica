@@ -31,7 +31,7 @@ export default function StepDateTime() {
 
   const [currentDate, setCurrentDate] = useState(todayString());
 
-  const { available, booked, isLoading, error, retry } = useAvailability(
+  const { available, booked, isLoading, isRefreshing, error, retry } = useAvailability(
     currentDate,
     state.staffId
   );
@@ -86,8 +86,11 @@ export default function StepDateTime() {
           onClick={goNextDay}
           aria-label="Día siguiente"
         >
-          →
+        →
         </button>
+        {isRefreshing && (
+          <span className={styles.refreshing} aria-live="polite">↻ Actualizando...</span>
+        )}
       </div>
 
       {/* Pre-select today's date in context if not set */}

@@ -4,6 +4,7 @@ import { useBooking, useBookingDispatch } from './BookingContext';
 import servicesData from '../../data/services';
 import staffData from '../../data/staff';
 import useCalendarApi from '../../hooks/useCalendarApi';
+import { invalidateAvailabilityCache } from '../../hooks/useAvailability';
 import styles from './StepConfirm.module.css';
 
 function findService(id) {
@@ -61,6 +62,9 @@ export default function StepConfirm({ onReset }) {
         end,
         description,
       });
+
+      // Invalidate cache for this date so other users see the slot as taken immediately
+      invalidateAvailabilityCache(state.date);
 
       dispatch({ type: 'RESET' });
       setSubmitState('success');

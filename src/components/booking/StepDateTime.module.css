@@ -70,3 +70,15 @@
   background-color: #f0f7f5;
   border-radius: var(--radius-md);
 }
+
+.refreshing {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 0.7; }
+}
