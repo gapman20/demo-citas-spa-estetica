@@ -1,0 +1,4 @@
+# SPA fallback: serve index.html for all routes except API calls
+# Works on Netlify, Cloudflare Pages, and any host that supports _redirects
+/api/*  /api/:splat  200
+/*      /index.html  200
